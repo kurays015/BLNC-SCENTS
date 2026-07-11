@@ -32,6 +32,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "BLNC SCENTS",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 1200,
+        alt: "BLNC SCENTS logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BLNC SCENTS — Strength in Balance",
+    description:
+      "Luxury extrait de parfum collection. Five signature fragrances inspired by iconic scents.",
+    images: ["/images/og-image.png"],
   },
 };
 
