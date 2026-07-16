@@ -3,12 +3,16 @@
 import { useState } from "react";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { products, getAllAccordFilters } from "@/data/products";
+import type { SanityProduct } from "@/sanity/types";
 import { cn } from "@/lib/utils";
 
-export function ProductCatalog() {
+type ProductCatalogProps = {
+  products: SanityProduct[];
+  filters: string[];
+};
+
+export function ProductCatalog({ products, filters }: ProductCatalogProps) {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const filters = getAllAccordFilters();
 
   const filtered = activeFilter
     ? products.filter((p) =>

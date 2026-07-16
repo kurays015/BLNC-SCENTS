@@ -3,16 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import type { Product } from "@/data/products";
+import type { SanityProduct } from "@/sanity/types";
+import { resolveProductImageUrl } from "@/lib/imageResolver";
 import { cn } from "@/lib/utils";
 
 type ProductCardProps = {
-  product: Product;
+  product: SanityProduct;
   className?: string;
   priority?: boolean;
 };
 
 export function ProductCard({ product, className, priority = false }: ProductCardProps) {
+  const imageSrc = resolveProductImageUrl(product.image, 600, product.slug);
+
   return (
     <motion.div
       className={cn("group", className)}
@@ -23,7 +26,7 @@ export function ProductCard({ product, className, priority = false }: ProductCar
         <div className="relative overflow-hidden rounded-sm bg-cream shadow-sm transition-shadow duration-300 group-hover:shadow-xl">
           <div className="relative aspect-[3/4] overflow-hidden">
             <Image
-              src={product.image}
+              src={imageSrc}
               alt={product.name}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -40,7 +43,7 @@ export function ProductCard({ product, className, priority = false }: ProductCar
               {product.name}
             </h3>
             <p className="mt-2 font-mono text-xs text-amber/60">
-              {product.notes.slice(0, 3).join(" · ")}
+              {(product.notes ?? []).slice(0, 3).join(" · ")}
             </p>
           </div>
         </div>

@@ -6,23 +6,29 @@ import { ScentProfileChart } from "@/components/products/ScentProfileChart";
 import { Button } from "@/components/ui/Button";
 import { GoldShimmerText } from "@/components/ui/GoldShimmerText";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { products, getProductBySlug } from "@/data/products";
+import {
+  getAllProductSlugs,
+  getProductBySlug,
+} from "@/sanity/queries";
+import { resolveProductImageUrl } from "@/lib/imageResolver";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+  return getAllProductSlugs();
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return { title: "Product Not Found" };
   }
+
+  const imageUrl = resolveProductImageUrl(product.image, 1200, slug);
 
   return {
     title: product.name,
@@ -30,18 +36,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${product.name} | BLNC SCENTS`,
       description: product.description,
-      images: [{ url: product.image, alt: product.name }],
+      images: [{ url: imageUrl, alt: product.name }],
     },
   };
 }
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
+
+  const imageSrc = resolveProductImageUrl(product.image, 800, slug);
 
   return (
     <div className="grain-overlay">
@@ -51,7 +59,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <RevealOnScroll direction="left">
               <div className="relative mx-auto aspect-[3/4] max-w-lg overflow-hidden rounded-sm shadow-2xl">
                 <Image
-                  src={product.image}
+                  src={imageSrc}
                   alt={product.name}
                   fill
                   sizes="(max-width: 1024px) 90vw, 45vw"
@@ -134,7 +142,7 @@ export default async function ProductDetailPage({ params }: Props) {
                       Notes
                     </p>
                     <p className="mt-2 font-mono text-sm text-amber/80">
-                      {product.notes.map((n) => `· ${n}`).join("  ")}
+                      {(product.notes ?? []).map((n) => `· ${n}`).join("  ")}
                     </p>
                   </div>
                   <div>

@@ -11,7 +11,20 @@ type ScentProfileChartProps = {
 
 export function ScentProfileChart({ accords, className }: ScentProfileChartProps) {
   const prefersReducedMotion = useReducedMotion();
-  const sorted = [...accords].sort((a, b) => b.intensity - a.intensity);
+  const safeAccords = accords ?? [];
+
+  if (safeAccords.length === 0) {
+    return (
+      <div className={className}>
+        <h3 className="mb-6 text-xs font-medium uppercase tracking-[0.3em] text-amber/60">
+          Scent Profile
+        </h3>
+        <p className="text-sm italic text-amber/40">No scent data available yet.</p>
+      </div>
+    );
+  }
+
+  const sorted = [...safeAccords].sort((a, b) => b.intensity - a.intensity);
 
   return (
     <div className={className}>

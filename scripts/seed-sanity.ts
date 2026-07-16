@@ -1,0 +1,199 @@
+/**
+ * Seed script — uploads existing static products to Sanity.
+ *
+ * Run with:
+ *   npx tsx scripts/seed-sanity.ts
+ *
+ * Requirements:
+ *   - You must be logged in to the Sanity CLI: npx sanity login
+ *   - The NEXT_PUBLIC_SANITY_PROJECT_ID env var must be set
+ *     (or the script uses the hardcoded value below as a fallback)
+ */
+
+import { createClient } from "@sanity/client";
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? "f5dvap5r";
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production";
+
+const client = createClient({
+  projectId,
+  dataset,
+  apiVersion: "2025-01-01",
+  useCdn: false,
+  token: process.env.SANITY_API_TOKEN, // needs write token; falls back to CLI auth
+});
+
+const products = [
+  {
+    _id: "product-players-code",
+    _type: "product",
+    name: "Player's Code",
+    slug: { _type: "slug", current: "players-code" },
+    inspiredBy: { brand: "Versace", fragrance: "Eros" },
+    notes: ["vanilla", "aromatic", "green", "fresh spicy", "amber"],
+    dominantAccords: ["vanilla", "aromatic", "fresh"],
+    accords: [
+      { _key: "a1", name: "vanilla", intensity: 100, color: "#F5E6A3" },
+      { _key: "a2", name: "aromatic", intensity: 88, color: "#2A9D8F" },
+      { _key: "a3", name: "green", intensity: 76, color: "#4CAF50" },
+      { _key: "a4", name: "fresh spicy", intensity: 68, color: "#8BC34A" },
+      { _key: "a5", name: "amber", intensity: 60, color: "#C45C3E" },
+      { _key: "a6", name: "fruity", intensity: 52, color: "#E53935" },
+      { _key: "a7", name: "citrus", intensity: 44, color: "#9E9D24" },
+      { _key: "a8", name: "woody", intensity: 36, color: "#5D4037" },
+      { _key: "a9", name: "sweet", intensity: 28, color: "#B71C1C" },
+      { _key: "a10", name: "fresh", intensity: 20, color: "#81D4FA" },
+    ],
+    image: "/images/products/players-code.png",
+    description:
+      "A magnetic extrait built on creamy vanilla and aromatic freshness — bold, confident, and unmistakably seductive. Inspired by the iconic energy of Eros, refined through BLNC SCENTS' lens of balance.",
+    order: 1,
+  },
+  {
+    _id: "product-monarch",
+    _type: "product",
+    name: "Monarch",
+    slug: { _type: "slug", current: "monarch" },
+    inspiredBy: { brand: "Creed", fragrance: "Aventus" },
+    notes: ["fruity", "sweet", "woody", "leather", "citrus"],
+    dominantAccords: ["fruity", "woody", "sweet"],
+    accords: [
+      { _key: "a1", name: "fruity", intensity: 100, color: "#E65100" },
+      { _key: "a2", name: "sweet", intensity: 85, color: "#C2185B" },
+      { _key: "a3", name: "woody", intensity: 72, color: "#6D4C41" },
+      { _key: "a4", name: "leather", intensity: 60, color: "#4E342E" },
+      { _key: "a5", name: "citrus", intensity: 50, color: "#AED581" },
+      { _key: "a6", name: "smoky", intensity: 42, color: "#757575" },
+      { _key: "a7", name: "musky", intensity: 34, color: "#7B1FA2" },
+      { _key: "a8", name: "fresh", intensity: 26, color: "#4FC3F7" },
+      { _key: "a9", name: "tropical", intensity: 18, color: "#FFB300" },
+      { _key: "a10", name: "mossy", intensity: 10, color: "#33691E" },
+    ],
+    image: "/images/products/monarch.png",
+    description:
+      "Regal and commanding — a fruity-woody extrait with a smoky leather backbone. Monarch channels the legendary presence of Aventus into a fragrance that rules with quiet confidence.",
+    order: 2,
+  },
+  {
+    _id: "product-br-540",
+    _type: "product",
+    name: "BR 540",
+    slug: { _type: "slug", current: "br-540" },
+    inspiredBy: {
+      brand: "Maison Francis Kurkdjian",
+      fragrance: "Baccarat Rouge 540",
+    },
+    notes: ["woody", "amber", "warm spicy", "metallic", "fresh spicy"],
+    dominantAccords: ["woody", "amber", "warm spicy"],
+    accords: [
+      { _key: "a1", name: "woody", intensity: 100, color: "#6D4C41" },
+      { _key: "a2", name: "amber", intensity: 90, color: "#E65100" },
+      { _key: "a3", name: "warm spicy", intensity: 78, color: "#8D2B0B" },
+      { _key: "a4", name: "metallic", intensity: 65, color: "#607D8B" },
+      { _key: "a5", name: "fresh spicy", intensity: 55, color: "#558B2F" },
+      { _key: "a6", name: "aromatic", intensity: 45, color: "#00695C" },
+      { _key: "a7", name: "white floral", intensity: 35, color: "#B0BEC5" },
+      { _key: "a8", name: "animalic", intensity: 25, color: "#424242" },
+      { _key: "a9", name: "fresh", intensity: 15, color: "#64B5F6" },
+    ],
+    image: "/images/products/br-540.png",
+    description:
+      "Radiant amber and crystalline woods woven into an extrait of luminous warmth. BR 540 captures the ethereal brilliance of Baccarat Rouge 540 with BLNC SCENTS' signature restraint.",
+    order: 3,
+  },
+  {
+    _id: "product-tropical-f",
+    _type: "product",
+    name: "Tropical F*",
+    slug: { _type: "slug", current: "tropical-f" },
+    inspiredBy: {
+      brand: "Stéphane Humbert Lucas 777",
+      fragrance: "God of Fire",
+    },
+    notes: ["fruity", "tropical", "sweet", "citrus", "fresh"],
+    dominantAccords: ["fruity", "tropical", "citrus"],
+    accords: [
+      { _key: "a1", name: "fruity", intensity: 100, color: "#FF6F00" },
+      { _key: "a2", name: "tropical", intensity: 88, color: "#FDD835" },
+      { _key: "a3", name: "sweet", intensity: 75, color: "#D32F2F" },
+      { _key: "a4", name: "citrus", intensity: 62, color: "#AED581" },
+      { _key: "a5", name: "fresh", intensity: 50, color: "#26C6DA" },
+      { _key: "a6", name: "woody", intensity: 40, color: "#795548" },
+      { _key: "a7", name: "fresh spicy", intensity: 30, color: "#33691E" },
+      { _key: "a8", name: "musky", intensity: 22, color: "#7E57C2" },
+      { _key: "a9", name: "terpenic", intensity: 14, color: "#F9A825" },
+      { _key: "a10", name: "oud", intensity: 8, color: "#424242" },
+    ],
+    image: "/images/products/tropical-f.png",
+    description:
+      "A sun-drenched extrait bursting with tropical fruit and golden citrus. Tropical F* channels the fiery opulence of God of Fire into a vibrant, wearable statement of strength in balance.",
+    order: 4,
+  },
+  {
+    _id: "product-s-intense",
+    _type: "product",
+    name: "S. Intense",
+    slug: { _type: "slug", current: "s-intense" },
+    inspiredBy: { brand: "Dior", fragrance: "Sauvage" },
+    notes: [
+      "fresh spicy",
+      "citrus",
+      "amber",
+      "lavender",
+      "musky",
+      "aromatic",
+      "herbal",
+    ],
+    dominantAccords: ["fresh spicy", "citrus", "amber"],
+    accords: [
+      { _key: "a1", name: "fresh spicy", intensity: 100, color: "#2E7D32" },
+      { _key: "a2", name: "citrus", intensity: 85, color: "#CDDC39" },
+      { _key: "a3", name: "amber", intensity: 72, color: "#E65100" },
+      { _key: "a4", name: "lavender", intensity: 60, color: "#9575CD" },
+      { _key: "a5", name: "musky", intensity: 50, color: "#78909C" },
+      { _key: "a6", name: "aromatic", intensity: 42, color: "#00897B" },
+      { _key: "a7", name: "herbal", intensity: 34, color: "#689F38" },
+      { _key: "a8", name: "anis", intensity: 26, color: "#8D6E63" },
+      { _key: "a9", name: "soft spicy", intensity: 18, color: "#D84315" },
+      { _key: "a10", name: "floral", intensity: 10, color: "#F48FB1" },
+    ],
+    image: "/images/products/s-intense.png",
+    description:
+      "Raw, radiant, and refined — a fresh-spicy extrait with amber depth and aromatic edge. S. Intense distills the untamed spirit of Sauvage into BLNC SCENTS' philosophy of controlled power.",
+    order: 5,
+  },
+];
+
+async function seed() {
+  console.log(`\n🌱 Seeding ${products.length} products to Sanity...\n`);
+
+  const transaction = client.transaction();
+
+  for (const product of products) {
+    transaction.createOrReplace(product);
+    console.log(`  ✓ Queued: ${product.name}`);
+  }
+
+  // Seed heroSettings pointing to first product
+  transaction.createOrReplace({
+    _id: "heroSettings",
+    _type: "heroSettings",
+    featuredProduct: {
+      _type: "reference",
+      _ref: "product-players-code",
+    },
+  });
+  console.log(`  ✓ Queued: Hero Settings → Player's Code`);
+
+  await transaction.commit();
+
+  console.log("\n✅ Seed complete! All products are live in Sanity.\n");
+  console.log(
+    `🔗 Open your Studio: https://sanity.io/manage/personal/project/${projectId}\n`,
+  );
+}
+
+seed().catch((err) => {
+  console.error("\n❌ Seed failed:", err.message);
+  process.exit(1);
+});

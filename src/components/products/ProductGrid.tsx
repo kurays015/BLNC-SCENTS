@@ -1,9 +1,9 @@
-import type { Product } from "@/data/products";
+import type { SanityProduct } from "@/sanity/types";
 import { ProductCard } from "./ProductCard";
 import { cn } from "@/lib/utils";
 
 type ProductGridProps = {
-  products: Product[];
+  products: SanityProduct[];
   className?: string;
 };
 

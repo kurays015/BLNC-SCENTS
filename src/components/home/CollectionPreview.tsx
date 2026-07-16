@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { products } from "@/data/products";
+import { getProducts } from "@/sanity/queries";
 
-export function CollectionPreview() {
+export async function CollectionPreview() {
+  const products = await getProducts();
+
   return (
     <section className="bg-cream py-24 grain-overlay">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
