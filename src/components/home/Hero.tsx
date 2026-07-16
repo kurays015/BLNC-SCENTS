@@ -19,7 +19,7 @@ export async function Hero() {
 
   if (!featured) return null;
 
-  const imageSrc = resolveProductImageUrl(featured.image, 800, featured.slug);
+  const imageSrc = resolveProductImageUrl(featured.image, 800, featured.slug, featured.legacyImageUrl);
 
   return (
     <section className="relative min-h-[90vh] overflow-hidden grain-overlay">

@@ -14,7 +14,7 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, className, priority = false }: ProductCardProps) {
-  const imageSrc = resolveProductImageUrl(product.image, 600, product.slug);
+  const imageSrc = resolveProductImageUrl(product.image, 600, product.slug, product.legacyImageUrl);
 
   return (
     <motion.div

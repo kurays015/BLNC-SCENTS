@@ -3,7 +3,9 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ParallaxShadow } from "@/components/ui/ParallaxShadow";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
 
 const inter = Inter({
   variable: "--font-inter",
@@ -62,6 +64,7 @@ export default function RootLayout({
         <Header />
         <main className="relative z-10 flex-1">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

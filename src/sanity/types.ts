@@ -21,6 +21,7 @@ export type SanityProduct = {
   accords: SanityAccord[];
   /** Either a Sanity image asset reference or a legacy string path */
   image: SanityImageSource | string;
+  legacyImageUrl?: string;
   description: string;
   dominantAccords: string[];
 };

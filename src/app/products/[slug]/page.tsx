@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Product Not Found" };
   }
 
-  const imageUrl = resolveProductImageUrl(product.image, 1200, slug);
+  const imageUrl = resolveProductImageUrl(product.image, 1200, slug, product.legacyImageUrl);
 
   return {
     title: product.name,
@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: Props) {
     notFound();
   }
 
-  const imageSrc = resolveProductImageUrl(product.image, 800, slug);
+  const imageSrc = resolveProductImageUrl(product.image, 800, slug, product.legacyImageUrl);
 
   return (
     <div className="grain-overlay">

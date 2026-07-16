@@ -109,6 +109,13 @@ export const productSchema = defineType({
       type: "number",
       description: "Lower numbers appear first in the collection",
     }),
+    defineField({
+      name: "legacyImageUrl",
+      title: "Legacy Image URL",
+      type: "string",
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   preview: {
     select: {

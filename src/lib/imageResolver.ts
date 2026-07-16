@@ -11,28 +11,30 @@ export function resolveProductImageUrl(
   image: SanityImageSource | string | null | undefined,
   width = 800,
   fallbackSlug?: string,
+  legacyImageUrl?: string,
 ): string {
-  // Null / undefined — fall back to legacy public path
-  if (!image) {
-    if (fallbackSlug) {
-      return `/images/products/${fallbackSlug}.png`;
+  // 1. If it's a valid Sanity image reference, build CDN URL
+  if (image && typeof image !== "string") {
+    try {
+      return urlFor(image).width(width).auto("format").url();
+    } catch {
+      // fall through to fallbacks
     }
-    return "/images/products/placeholder.png";
   }
 
-  // Legacy string path from old static data
+  // 2. If legacyImageUrl exists as a string in the Sanity document, use it
+  if (legacyImageUrl) {
+    return legacyImageUrl;
+  }
+
+  // 3. If image itself is a legacy string path
   if (typeof image === "string") {
     return image;
   }
 
-  // Sanity image asset reference
-  try {
-    return urlFor(image).width(width).auto("format").url();
-  } catch {
-    // If urlFor fails (e.g. malformed ref), fall back
-    if (fallbackSlug) {
-      return `/images/products/${fallbackSlug}.png`;
-    }
-    return "/images/products/placeholder.png";
+  // 4. Default fallback using slug
+  if (fallbackSlug) {
+    return `/images/products/${fallbackSlug}.png`;
   }
+  return "/images/products/placeholder.png";
 }

@@ -15,6 +15,7 @@ const PRODUCTS_QUERY = defineQuery(`
     notes,
     accords,
     image,
+    legacyImageUrl,
     description,
     dominantAccords
   }
@@ -29,6 +30,7 @@ const PRODUCT_BY_SLUG_QUERY = defineQuery(`
     notes,
     accords,
     image,
+    legacyImageUrl,
     description,
     dominantAccords
   }
@@ -44,6 +46,7 @@ const HERO_SETTINGS_QUERY = defineQuery(`
       notes,
       accords,
       image,
+      legacyImageUrl,
       description,
       dominantAccords
     }
