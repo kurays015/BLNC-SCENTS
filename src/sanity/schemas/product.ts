@@ -42,6 +42,7 @@ export const productSchema = defineType({
       name: "inspiredBy",
       title: "Inspired By",
       type: "object",
+      validation: (Rule) => Rule.required(),
       fields: [
         defineField({
           name: "brand",

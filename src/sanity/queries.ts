@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 import { client } from "./client";
+import { sanityFetch } from "./live";
 import type { SanityProduct } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -58,25 +59,40 @@ const HERO_SETTINGS_QUERY = defineQuery(`
 // ---------------------------------------------------------------------------
 
 export async function getProducts(): Promise<SanityProduct[]> {
-  return client.fetch(PRODUCTS_QUERY);
+  const { data } = (await sanityFetch({ query: PRODUCTS_QUERY })) as {
+    data: SanityProduct[];
+  };
+  return data || [];
 }
 
 export async function getProductBySlug(
   slug: string,
 ): Promise<SanityProduct | null> {
-  return client.fetch(PRODUCT_BY_SLUG_QUERY, { slug });
+  const { data } = (await sanityFetch({
+    query: PRODUCT_BY_SLUG_QUERY,
+    params: { slug },
+  })) as { data: SanityProduct | null };
+  return data;
 }
 
 export async function getFeaturedProduct(): Promise<SanityProduct | null> {
-  const settings = await client.fetch(HERO_SETTINGS_QUERY);
+  const { data: settings } = (await sanityFetch({
+    query: HERO_SETTINGS_QUERY,
+  })) as { data: { featuredProduct: SanityProduct | null } | null };
   return settings?.featuredProduct ?? null;
 }
 
+/**
+ * Used exclusively by generateStaticParams() at build time.
+ * Must use client.fetch() directly — sanityFetch() calls draftMode()
+ * which is not available without an HTTP request context.
+ */
 export async function getAllProductSlugs(): Promise<{ slug: string }[]> {
-  const products = await getProducts();
-  return products
-    .filter((p): p is SanityProduct & { slug: string } => Boolean(p?.slug))
-    .map((p) => ({ slug: p.slug! }));
+  const SLUGS_QUERY = defineQuery(
+    `*[_type == "product" && defined(slug.current)][].slug.current`,
+  );
+  const slugs = await client.fetch<string[]>(SLUGS_QUERY, {}, { next: { revalidate: false } });
+  return slugs.filter(Boolean).map((slug) => ({ slug }));
 }
 
 export async function getAllAccordFilters(): Promise<string[]> {

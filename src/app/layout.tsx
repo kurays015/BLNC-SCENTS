@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ParallaxShadow } from "@/components/ui/ParallaxShadow";
 import { Analytics } from "@vercel/analytics/next";
+import { SanityLive } from "@/sanity/live";
 import "./globals.css";
 
 
@@ -65,6 +66,7 @@ export default function RootLayout({
         <main className="relative z-10 flex-1">{children}</main>
         <Footer />
         <Analytics />
+        <SanityLive />
       </body>
     </html>
   );
